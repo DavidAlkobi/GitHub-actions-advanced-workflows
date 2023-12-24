@@ -2,7 +2,7 @@ name: issue
 on: issues
 jobs: 
     info:
-        runs-on: ubuntu-latast
+        runs-on: ubuntu-latest
         steps:
          - name: print event details
            run: echo " ${{ toJson(github)}}"
