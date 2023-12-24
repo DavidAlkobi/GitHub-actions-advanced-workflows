@@ -2,7 +2,7 @@ name: test-github
 on: push
 
 jobs:
-    lint-test-and-deploy:
+    deploy:
         runs-on: ubuntu-latest
         steps:
          - name: Checkout code
