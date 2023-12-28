@@ -1,4 +1,4 @@
-name: test-github
+name: deploy-advanced-github
 on: push
 
 jobs:
