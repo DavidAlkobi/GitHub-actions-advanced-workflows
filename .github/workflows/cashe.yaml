@@ -1,0 +1,74 @@
+name: test-github
+on: push
+
+jobs:
+    lint:
+        runs-on: ubuntu-latest
+        steps:
+         - name: Checkout code
+           uses: actions/checkout@v3
+         - name: Cache dependencies
+           id: cache
+           uses: actions/cache@v3
+           with:
+            path: ~/.npm
+            key: deps-node-moduls-${{ hashFiles('**/package-lock.json') }}
+         - name: Install dependencies
+           run: npm ci
+         - name: lint
+           run: npm run lint
+    test:
+        runs-on: ubuntu-latest
+        steps:
+         - name: Checkout code
+           uses: actions/checkout@v3
+         - name: Cache dependencies
+           id: cache
+           uses: actions/cache@v3
+           with:
+            path: ~/.npm
+            key: deps-node-moduls-${{ hashFiles('**/package-lock.json') }}
+         - name: Install dependencies
+           run: npm ci
+         - name: test
+           run: npm test
+    build:
+        needs: test
+        runs-on: ubuntu-latest
+        outputs: 
+          script-file: ${{ steps.publish.outputs.script-file }}
+        steps:
+         - name: Checkout code
+           uses: actions/checkout@v3
+         - name: Cache dependencies
+           id: cache
+           uses: actions/cache@v3
+           with:
+            path: ~/.npm
+            key: deps-node-moduls-${{ hashFiles('**/package-lock.json') }}
+         - name: Install dependencies
+           run: npm ci
+         - name: Build
+           run: npm run build
+         - name: Publish JS filename
+           id: publish
+           run: find dist/assets/*.js -type f -execdir echo 'script-file={}' >> GITHUB_OUTPUT' ;'
+         - name: Upload artifact
+           uses: actions/upload-artifact@v4.0.0
+           with:
+            name: dist-files
+            path: dist
+    deploy:
+        needs: build
+        runs-on: ubuntu-latest
+        steps:
+         - name: Download artifact
+           uses: actions/download-artifact@v4
+           with:
+             name: dist-files
+         - name: Output filename
+           run: echo "${{ needs.build.outputs.script-file }}"
+         - name: deploy
+           run: echo "deploying..."
+
+        
