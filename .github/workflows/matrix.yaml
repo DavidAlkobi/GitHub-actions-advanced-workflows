@@ -91,7 +91,7 @@ jobs:
          - name: deploy
            uses: ./.github/workflows/reusable.yaml
     report:
-      needs: deploy
+      needs: [lint ,deploy]
       if: failure()
       runs-on: ubuntu-latest
       steps:
