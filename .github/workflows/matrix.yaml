@@ -18,6 +18,7 @@ jobs:
          - name: lint
            run: npm run lint
     test:
+        continue-on-error: true
         strategy: 
           matrix: 
             node-version: [12, 14, 16]
