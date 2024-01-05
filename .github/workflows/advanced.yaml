@@ -7,7 +7,7 @@ jobs:
          - name: Checkout code
            uses: actions/checkout@v3
          - name: Get dependencies and install
-           uses: DavidAlkobi/custom-actions
+           uses: DavidAlkobi/custom-actions@1.0
          - name: lint
            run: npm run lint
     test:
@@ -17,7 +17,7 @@ jobs:
          - name: Checkout code
            uses: actions/checkout@v3
          - name: Get dependencies and install
-           uses: DavidAlkobi/custom-actions
+           uses: DavidAlkobi/custom-actions@1.0
          - name: test
            continue-on-error: true
            id: test
@@ -37,7 +37,7 @@ jobs:
          - name: Checkout code
            uses: actions/checkout@v3
          - name: Get dependencies and install
-           uses: DavidAlkobi/custom-actions
+           uses: DavidAlkobi/custom-actions@1.0
          - name: Build
            run: npm run build
          - name: Publish JS filename
