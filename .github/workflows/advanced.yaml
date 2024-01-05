@@ -65,6 +65,9 @@ jobs:
               path: ./dist
           - name: Deploy to AWS S3
             uses: ./.github/actions/deploy-s3-javascript
+            env: 
+              AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
+              AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_ACCESS_KEY_ID}}
             with: 
               bucket: web-hosting-github
               region: us-east-1
@@ -86,12 +89,4 @@ jobs:
           run: | 
             echo "Something went wrong"
             echo "${{ github.event }}"
-    
-    information:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v3
-        - name: Run custom JS action
-          uses: ./.github/actions/deploy-s3-javascript
         
