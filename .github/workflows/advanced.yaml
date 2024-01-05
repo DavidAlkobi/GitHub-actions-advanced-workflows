@@ -1,5 +1,5 @@
 name: deploy-advanced-github 
-on: workflow_dispatch
+on: push
 
 jobs:
     lint:
@@ -7,41 +7,18 @@ jobs:
         steps:
          - name: Checkout code
            uses: actions/checkout@v3
-         - name: Cache dependencies
-           id: cache
-           uses: actions/cache@v3
-           with:
-            path: ~/.npm
-            key: deps-node-moduls-${{ hashFiles('**/package-lock.json') }}
-         - name: Install dependencies
-           run: npm ci
+         - name: Get dependencies and install
+           uses: DavidAlkobi/custom-actions
          - name: lint
            run: npm run lint
     test:
         continue-on-error: true
-        strategy: 
-          matrix: 
-            node-version: [12, 14, 16]
-            operating-system: [ubuntu-latest, windows-latest]
-            include: 
-              - node-version: 18
-                operating-system: macos-latest
-        runs-on: ${{ matrix.operating-system }}
+        runs-on: ubuntu-latest
         steps:
          - name: Checkout code
            uses: actions/checkout@v3
-         - name: Install NodeJS
-           uses: actions/setup-node@v3
-           with:
-            node-version: ${{ matrix.node-version }}
-         - name: Cache dependencies
-           id: cache
-           uses: actions/cache@v3
-           with:
-            path: ~/.npm
-            key: deps-node-moduls-${{ hashFiles('**/package-lock.json') }}
-         - name: Install dependencies
-           run: npm ci
+         - name: Get dependencies and install
+           uses: DavidAlkobi/custom-actions
          - name: test
            continue-on-error: true
            id: test
@@ -60,14 +37,8 @@ jobs:
         steps:
          - name: Checkout code
            uses: actions/checkout@v3
-         - name: Cache dependencies
-           id: cache
-           uses: actions/cache@v3
-           with:
-            path: ~/.npm
-            key: deps-node-moduls-${{ hashFiles('**/package-lock.json') }}
-         - name: Install dependencies
-           run: npm ci
+         - name: Get dependencies and install
+           uses: DavidAlkobi/custom-actions
          - name: Build
            run: npm run build
          - name: Publish JS filename
