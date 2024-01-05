@@ -75,5 +75,13 @@ jobs:
         - name: Output information
           run: | 
             echo "Something went wrong"
-            echo "${{ github }}"
+            echo "${{ github.event }}"
+    
+    information:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v3
+        - name: Run custom JS action
+          uses: ./.github/actions/deploy-s3-javascript
         
